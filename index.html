@@ -50,6 +50,143 @@
         }
     </style>
 </head>
+    <!-- Début : Cookie / RGPD banner -->
+<style>
+  /* Styles du bandeau cookie */
+  #cookie-consent {
+    position: fixed;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    padding: 18px;
+    display: none;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+  }
+  #cookie-consent .actions { display:flex; gap:8px; margin-top:10px; justify-content:flex-end; }
+  #cookie-consent button { padding:8px 12px; border-radius:6px; border:1px solid #ccc; cursor:pointer; background:#f5f5f5; }
+  #cookie-consent button.primary { background:#007bff; color:#fff; border-color:transparent; }
+  #cookie-consent a { color:#007bff; text-decoration:underline; }
+  #cookie-settings { display:none; margin-top:10px; border-top:1px solid #eee; padding-top:10px; }
+  #cookie-consent label { display:flex; align-items:center; gap:8px; margin:6px 0; }
+</style>
+
+<div id="cookie-consent" role="dialog" aria-live="polite" aria-label="Bannière cookies">
+  <div>
+    <strong>Nous utilisons des cookies</strong>
+    <p style="margin:6px 0 0 0; color:#333">
+      Pour améliorer l'expérience et analyser l'utilisation du site. Vous pouvez accepter tous les cookies, les refuser ou choisir quelles catégories autoriser.
+      <a href="/politique-confidentialite.html" target="_blank" rel="noopener">En savoir plus</a>
+    </p>
+
+    <div id="cookie-settings" aria-hidden="true">
+      <label><input type="checkbox" id="cookie-necessary" checked disabled> Cookies strictement nécessaires</label>
+      <label><input type="checkbox" id="cookie-stats"> Cookies d'analyse (ex. Google Analytics)</label>
+      <label><input type="checkbox" id="cookie-marketing"> Cookies marketing</label>
+    </div>
+
+    <div class="actions">
+      <button id="btn-manage">Paramétrer</button>
+      <button id="btn-refuse">Refuser</button>
+      <button class="primary" id="btn-accept">Accepter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const BANNER_ID = 'cookie-consent';
+  const LS_KEY = 'cookie_consent_v1'; // change si tu veux réinitialiser
+  const banner = document.getElementById(BANNER_ID);
+  const settings = document.getElementById('cookie-settings');
+  const btnManage = document.getElementById('btn-manage');
+  const btnRefuse = document.getElementById('btn-refuse');
+  const btnAccept = document.getElementById('btn-accept');
+
+  // Lecture du consentement
+  const saved = localStorage.getItem(LS_KEY);
+  const consent = saved ? JSON.parse(saved) : null;
+
+  function applyConsent(c) {
+    // c : { necessary:true, stats:bool, marketing:bool, timestamp:... }
+    // Exemple : charger Analytics seulement si c.stats === true
+    if (c && c.stats) {
+      loadAnalytics(); // fonction ci-dessous (exemple)
+    }
+    // tu peux ajouter d'autres scripts conditionnels ici
+  }
+
+  // Exemple : fonction pour charger Analytics (ne le déclenche que si accord)
+  function loadAnalytics() {
+    if (window._gaLoaded) return;
+    window._gaLoaded = true;
+    // Exemple: insertion d'un script analytics (adapter selon ce que tu veux charger)
+    // IMPORTANT: remplace par ton vrai code si besoin (ou commente si tu n'en veux pas)
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX'; // <-- remplacer ID si utilisé
+    document.head.appendChild(s);
+    s.onload = function() {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
+    };
+  }
+
+  // Afficher le bandeau si aucun consentement enregistré
+  if (!consent) {
+    banner.style.display = 'block';
+  } else {
+    applyConsent(consent);
+  }
+
+  // Gérer boutons
+  btnManage.addEventListener('click', function() {
+    settings.style.display = settings.style.display === 'block' ? 'none' : 'block';
+    settings.setAttribute('aria-hidden', settings.style.display === 'block' ? 'false' : 'true');
+  });
+
+  btnRefuse.addEventListener('click', function() {
+    const c = { necessary: true, stats: false, marketing: false, timestamp: Date.now() };
+    localStorage.setItem(LS_KEY, JSON.stringify(c));
+    banner.style.display = 'none';
+    applyConsent(c);
+  });
+
+  btnAccept.addEventListener('click', function() {
+    // Si user n'a pas ouvert paramétrage, on prend tout
+    let stats = document.getElementById('cookie-stats').checked;
+    let marketing = document.getElementById('cookie-marketing').checked;
+
+    // Si paramètres cachés (pas ouverts), cocher tout par défaut à accept
+    if (settings.style.display !== 'block') {
+      stats = true;
+      marketing = true;
+    }
+
+    const c = { necessary: true, stats: !!stats, marketing: !!marketing, timestamp: Date.now() };
+    localStorage.setItem(LS_KEY, JSON.stringify(c));
+    banner.style.display = 'none';
+    applyConsent(c);
+  });
+
+  // Si tu veux offrir la possibilité à l'utilisateur de changer ses choix plus tard,
+  // ajoute un lien dans ton footer qui appelle showConsentPanel();
+  window.showConsentPanel = function() {
+    banner.style.display = 'block';
+    settings.style.display = 'block';
+    settings.setAttribute('aria-hidden', 'false');
+  };
+
+})();
+</script>
+<!-- Fin : Cookie / RGPD banner -->
+
 <body>
     <div class="container">
         <h2>Accéder au site Mon E-Champo</h2>
