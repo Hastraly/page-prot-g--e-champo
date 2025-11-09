@@ -52,26 +52,28 @@
 </head>
     <style>
   #cookie-info {
+    position: fixed;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    text-align: center;
     font-family: Arial, sans-serif;
     font-size: 12px;
-    text-align: center;
     color: #555;
-    opacity: 0.8;
-    padding: 10px 5px;
+    opacity: 0.75;
+    padding: 5px;
+    pointer-events: none; /* ✅ Ne gêne pas les clics */
   }
 
   #cookie-info a {
     color: #007bff;
     text-decoration: underline;
-  }
-
-  #cookie-info a:hover {
-    opacity: 1;
+    pointer-events: auto; /* ✅ Le lien reste cliquable */
   }
 </style>
 
 <div id="cookie-info">
-  Ce site utilise uniquement des cookies indispensables au bon fonctionnement (accès sécurisé). 
+  Ce site utilise uniquement des cookies indispensables au bon fonctionnement.<br>
   <a href="/politique-confidentialite.html">En savoir plus</a>
 </div>
 
