@@ -111,12 +111,21 @@
     padding-top: 10px;
   }
   #cookie-settings label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 6px 0;
-    font-size: 13px;
-  }
+  display: flex;
+  align-items: center; /* ✅ Aligne verticalement la case et le texte */
+  gap: 10px; /* ✅ Ajoute un espace homogène */
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 1.4;
+  width: 100%; /* ✅ Les labels prennent la largeur complète */
+}
+
+#cookie-settings input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0; /* ✅ Empêche la checkbox de se déformer */
+}
+    
 </style>
 
 <div id="cookie-consent" role="dialog" aria-live="polite" aria-label="Bannière cookies">
