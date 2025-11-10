@@ -74,29 +74,29 @@
 
 <div id="cookie-info">
   © 2025 e-champo — Tous droits réservés.<br>
-    Le partage de ce site envers des tiers est interdit.<br>
+    Le partage du mot de passe mis en place par l'administrateur est totalement interdit et sera sanctionné.<br>
 </div>
 
 <body>
     <div class="container">
-        <h2>Accéder au site Mon E-Champo</h2>
-        <p>Ce site est réservé aux élèves de la 2nde 10 du lycée Champollion</p>
+        <h2>Accéder au site E-Champo</h2>
+        <p>Ce site est réservé aux personnes y ayant été invités.</p>
         <input type="password" id="passwordInput" placeholder="Mot de passe">
         <button onclick="checkPassword()">Entrer</button>
         <p class="error" id="errorMsg">Mot de passe incorrect ❌</p>
     </div>
 
     <script>
-        function checkPassword() {
-            const correctPassword = "Seconde";
-            const userPassword = document.getElementById("passwordInput").value;
+  function checkPassword() {
+    const validPasswords = ["admin"]; // ✅ Ajoute ce que tu veux
+    const passwordInput = document.getElementById("password").value;
 
-            if (userPassword === correctPassword) {
-                window.location.href = "https://sites.google.com/view/e-champo/";
-            } else {
-                document.getElementById("errorMsg").style.display = "block";
-            }
-        }
-    </script>
+    if (validPasswords.includes(passwordInput)) {
+      window.location.href = "https://sites.google.com/view/e-champo";
+    } else {
+      alert("Mot de passe incorrect !");
+    }
+  }
+</script>
 </body>
 </html>
