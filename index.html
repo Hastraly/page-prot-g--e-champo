@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accéder au site Mon E-Champo</title>
-
     <style>
         body { 
             font-family: Arial, sans-serif; 
@@ -44,7 +43,12 @@
         button:hover {
             background-color: #0056b3;
         }
-
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+        }
         #cookie-info {
             position: fixed;
             bottom: 5px;
@@ -59,9 +63,7 @@
             pointer-events: none;
         }
     </style>
-
 </head>
-
 <body>
 
     <div class="container">
@@ -70,7 +72,7 @@
 
         <input type="password" id="passwordInput" placeholder="Mot de passe">
         <button onclick="checkPassword()">Entrer</button>
-        <p class="error" id="errorMsg" style="display:none;">Mot de passe incorrect ❌</p>
+        <p class="error" id="errorMsg">Mot de passe incorrect ❌</p>
     </div>
 
     <div id="cookie-info">
@@ -78,19 +80,30 @@
         Le partage du mot de passe est interdit et sera sanctionné.
     </div>
 
-<script>
-function checkPassword() {
-    const validPasswords = ["admin"]; // ✅ Ajoute d'autres mots de passe ici
-    const passwordInput = document.getElementById("passwordInput").value;
+    <script>
+        const validPasswords = ["admin", "invite1", "invite2"]; // ajoute d'autres mots de passe ici
 
-    if (validPasswords.includes(passwordInput)) {
-        window.location.href = "https://sites.google.com/view/e-champo";
-    } else {
-        document.getElementById("errorMsg").style.display = "block";
-    }
-}
-</script>
-document.getElementById("errorMsg").style.display = "none";
+        function checkPassword() {
+            const passwordInput = document.getElementById("passwordInput").value;
+            const errorMsg = document.getElementById("errorMsg");
+
+            if (validPasswords.includes(passwordInput)) {
+                window.location.href = "https://sites.google.com/view/e-champo";
+            } else {
+                errorMsg.style.display = "block";
+                setTimeout(() => {
+                    errorMsg.style.display = "none";
+                }, 3000); // le message disparaît après 3 secondes
+            }
+        }
+
+        // Validation quand on appuie sur "Entrée"
+        document.getElementById("passwordInput").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        });
+    </script>
 
 </body>
 </html>
