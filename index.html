@@ -70,7 +70,7 @@
 
         <input type="password" id="passwordInput" placeholder="Mot de passe">
         <button onclick="checkPassword()">Entrer</button>
-        <p class="error" id="errorMsg">Mot de passe incorrect ❌</p>
+        <p class="error" id="errorMsg" style="display:none;">Mot de passe incorrect ❌</p>
     </div>
 
     <div id="cookie-info">
@@ -90,6 +90,7 @@ function checkPassword() {
     }
 }
 </script>
+document.getElementById("errorMsg").style.display = "none";
 
 </body>
 </html>
